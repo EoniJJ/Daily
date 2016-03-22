@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+       </style>
+    <style name="ActionButton.Overflow.ZhiHu" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_24dp</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow.ZhiHu</item>
+    </style>
+
+    <style name="MyTheme_Day" parent="@style/AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="backgroundColor">@color/backgroundColor_day</item>
+        <item name="text_color">@android:color/black</item>
+        <item name="card_backgroundColor">@android:color/white</item>
+        <item name="day_night_mode">夜间模式</item>
+
+    </style>
+
+    <style name="MyTheme_Night" parent="@style/AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/backgroundColor_night</item>
+        <item name="backgroundColor">@color/backgroundColor_night</item>
+        <item name="text_color">@color/textColor_night</item>
+        <item name="card_backgroundColor">@color/backgroundColor_night_card</item>
+        <item name="day_night_mode">日间模式</item>
+    </style>
+</resources>

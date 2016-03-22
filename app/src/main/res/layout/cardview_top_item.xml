@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/viewpager_item_height"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_topStories"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/viewpager_item_height"></android.support.v4.view.ViewPager>
+
+    <com.zzj.daily.ui.DotsRadioGroup
+        android:id="@+id/drg_dots"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dotsRadioGroup_height"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dots_marginBottom"
+        android:layout_marginTop="@dimen/dots_marginTop"
+        android:orientation="horizontal"
+        android:visibility="visible"></com.zzj.daily.ui.DotsRadioGroup>
+</FrameLayout>
