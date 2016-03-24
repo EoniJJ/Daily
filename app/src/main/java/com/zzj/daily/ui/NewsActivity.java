@@ -34,6 +34,8 @@ public class NewsActivity extends AppCompatActivity {
     private WebView webView;
     private SharedPreferences sharedPreferences;
     private static NewsEntity newsEntity;
+
+    //是否为夜间模式 是->true 否->false
     private static boolean isNightMode;
 
     public static void setNewsEntity(NewsEntity newsEntity) {
@@ -43,9 +45,11 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //activity被创建时从sharedPreferences获取当前主题模式
         sharedPreferences = this.getSharedPreferences("isNightMode", Context.MODE_PRIVATE);
         isNightMode = sharedPreferences.getBoolean("mode", false);
         if (isNightMode) {
+            //如果是夜间模式,设置theme为夜间模式
             setTheme(R.style.MyTheme_Night);
         } else {
             setTheme(R.style.MyTheme_Day);
@@ -54,8 +58,10 @@ public class NewsActivity extends AppCompatActivity {
         initView();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //设置返回按钮的图片
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_backspace_black_18dp);
         Intent intent = getIntent();
+        //从intent中取出key为Id的数据
         String id = String.valueOf(intent.getIntExtra("id", -1));
         //若当前硬盘缓存存在该新闻，则从缓存中取出，否则则从网络请求
         if (aCache.getAsObject(ZhiHuDailyApi.news + id) != null) {
@@ -70,7 +76,9 @@ public class NewsActivity extends AppCompatActivity {
             }
             String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/news.css\" type=\"text/css\">";
             String html = "";
+            //判断是否为夜间模式
             if (isNightMode) {
+                //加载body class = night 的css样式以实现夜间模式
                 html = "<html><head>" + css + "</head><body class=\"night\">" + newsEntity.getBody() + "</body></html>";
             } else {
                 html = "<html><head>" + css + "</head><body>" + newsEntity.getBody() + "</body></html>";
@@ -78,6 +86,7 @@ public class NewsActivity extends AppCompatActivity {
 
             webView.loadDataWithBaseURL("x-data://base", html, "text/html", "UTF-8", null);
         } else {
+            //启动一个异步任务从网络获取数据
             new NewsTask(imageView, textView_title, textView_imageSource, webView, isNightMode).execute(new String[]{ZhiHuDailyApi.news + id});
         }
 

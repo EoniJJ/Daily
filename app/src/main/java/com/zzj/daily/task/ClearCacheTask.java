@@ -8,9 +8,10 @@ import com.zzj.daily.support.MyApplication;
 
 /**
  * Created by xiaoJ on 2016/3/17.
+ * 清除缓存的异步任务
  */
 public class ClearCacheTask extends AsyncTask<Void,Void,Void> {
-
+    //缓存类
     private ACache aCache;
 
     public ClearCacheTask(ACache aCache){

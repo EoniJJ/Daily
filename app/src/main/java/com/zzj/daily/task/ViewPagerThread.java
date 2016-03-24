@@ -7,9 +7,9 @@ import com.zzj.daily.ui.TopItemHolder;
 
 /**
  * Created by xiaoJ on 2016/3/14.
- * ViewPager图片轮播任务
+ * ViewPager图片轮播线程
  */
-public class ViewPagerTask implements Runnable {
+public class ViewPagerThread implements Runnable {
     //头部新闻对象
     private TopItemHolder topItemHolder;
     //ViewPager的item总数目
@@ -24,14 +24,16 @@ public class ViewPagerTask implements Runnable {
         }
     };
 
-    public ViewPagerTask(TopItemHolder topItemHolder, int itemCount) {
+    public ViewPagerThread(TopItemHolder topItemHolder, int itemCount) {
         this.topItemHolder = topItemHolder;
         this.itemCount = itemCount;
+        //获取当前选择的item
         this.currentItem = topItemHolder.getDotsRadioGroup().getmPosition();
     }
 
     @Override
     public void run() {
+        //获取当前选择的item
         this.currentItem = topItemHolder.getDotsRadioGroup().getmPosition();
         currentItem = (currentItem + 1) % itemCount;
         handler.sendEmptyMessage(0);
