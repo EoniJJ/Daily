@@ -90,7 +90,6 @@ public class ViewPagerAdapter extends PagerAdapter implements View.OnClickListen
 
     /**
      * 重写监听方法，点击跳转activity并将id通过intent传递到新的activity
-     *
      * @param v
      */
     @Override

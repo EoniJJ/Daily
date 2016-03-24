@@ -135,11 +135,16 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            //点击 清除缓存
             case R.id.clear_cache:
+                //启用一个异步任务清除缓存
                 new ClearCacheTask(aCache).execute();
                 break;
+            //点击夜间模式/日间模式
             case R.id.night_mode:
+                //调用saveDayNightMode方法将当前所处模式存入sharePreferences
                 saveDayNightMode(!sharedPreferences.getBoolean("mode", false));
+                //重新创建activity
                 recreate();
                 break;
         }

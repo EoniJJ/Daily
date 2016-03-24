@@ -15,7 +15,7 @@ import com.zzj.daily.bean.LatestNewsEntity;
 import com.zzj.daily.cache.ACache;
 import com.zzj.daily.support.MyApplication;
 import com.zzj.daily.task.DownloadImageTask;
-import com.zzj.daily.task.ViewPagerTask;
+import com.zzj.daily.task.ViewPagerThread;
 import com.zzj.daily.ui.GroupItemHolder;
 import com.zzj.daily.ui.NewsActivity;
 import com.zzj.daily.ui.SimpleItemHolder;
@@ -173,7 +173,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((TopItemHolder) holder).getDotsRadioGroup().setDotView(((TopItemHolder) holder).getViewPager(), latestNewsEntity.getTop_stories().size());
         viewPagerAdapter.notifyDataSetChanged();
         //启动一个间隔线程任务实现ViewPager图片轮播
-        ViewPagerTask viewPagerTask = new ViewPagerTask((TopItemHolder) holder, latestNewsEntity.getTop_stories().size());
+        ViewPagerThread viewPagerTask = new ViewPagerThread((TopItemHolder) holder, latestNewsEntity.getTop_stories().size());
         if (scheduledExecutorService != null) {
             scheduledExecutorService.shutdown();
         }

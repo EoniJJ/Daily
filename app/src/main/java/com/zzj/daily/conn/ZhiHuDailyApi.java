@@ -1,13 +1,7 @@
 package com.zzj.daily.conn;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 /**
- * Created by Administrator on 2016/3/8.
+ * Created by xiaoJ on 2016/3/8.
  */
 public class ZhiHuDailyApi {
 
