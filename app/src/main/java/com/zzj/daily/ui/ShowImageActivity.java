@@ -11,8 +11,11 @@ import com.zzj.daily.R;
 import com.zzj.daily.cache.ACache;
 import com.zzj.daily.task.DownloadImageTask;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class ShowImageActivity extends AppCompatActivity {
     private ImageView imageView;
+    private PhotoViewAttacher mAttacher;
     private ACache aCache;
 
     @Override
@@ -21,6 +24,7 @@ public class ShowImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_image);
         aCache = ACache.get(this);
         imageView = (ImageView) findViewById(R.id.show_image);
+        mAttacher = new PhotoViewAttacher(imageView);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         if (TextUtils.isEmpty(url)) {
@@ -31,6 +35,7 @@ public class ShowImageActivity extends AppCompatActivity {
             }else{
                 new DownloadImageTask(imageView).execute(new String[]{url});
             }
+            mAttacher.update();
         }
     }
 }

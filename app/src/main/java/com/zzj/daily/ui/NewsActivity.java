@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,8 +69,8 @@ public class NewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //从intent中取出key为Id的数据
         String id = String.valueOf(intent.getIntExtra("id", -1));
-        webView.setWebViewClient(new MyWebViewClient());
         webView.addJavascriptInterface(new JavascriptInterface(this), "imagelistner");
+        webView.setWebViewClient(new MyWebViewClient());
         //若当前硬盘缓存存在该新闻，则从缓存中取出，否则则从网络请求
         if (aCache.getAsObject(ZhiHuDailyApi.news + id) != null) {
             newsEntity = (NewsEntity) aCache.getAsObject(ZhiHuDailyApi.news + id);
@@ -165,6 +166,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public class MyWebViewClient extends WebViewClient {
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -179,5 +181,6 @@ public class NewsActivity extends AppCompatActivity {
                     "}" +
                     "})()");
         }
+
     }
 }
