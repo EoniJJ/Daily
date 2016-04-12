@@ -11,7 +11,7 @@
     <dimen name="viewpager_item_textSize">22dp</dimen>
     <dimen name="viewpager_item_textView_marginLeft_Right">10dp</dimen>
     <dimen name="dotsRadioGroup_height">20dp</dimen>
-    <dimen name="card_height" >100dp</dimen>
+    <dimen name="card_height">100dp</dimen>
     <dimen name="card_margin_top_bottom">2dp</dimen>
     <dimen name="card_cardCornerRadius">5dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
@@ -25,14 +25,14 @@
     <dimen name="card_group_text_time_height">30dp</dimen>
     <dimen name="card_group_text_time_paddingLeft">10dp</dimen>
     <dimen name="card_group_text_time_textSize">18dp</dimen>
-    <dimen name="image_height" >200dp</dimen>
+    <dimen name="image_height">200dp</dimen>
     <dimen name="new_title_margin_bottom">20dp</dimen>
     <dimen name="image_source_margin_bottom">5dp</dimen>
     <dimen name="image_source_textSize">10dp</dimen>
     <dimen name="actionBarSize">58dp</dimen>
 
 
-    <attr name="backgroundColor" format="reference|color"/>
-    <attr name="text_color" format="reference|color"/>
-    <attr name="card_backgroundColor" format="reference|color"/>
+    <attr name="backgroundColor" format="reference|color" />
+    <attr name="text_color" format="reference|color" />
+    <attr name="card_backgroundColor" format="reference|color" />
 </resources>

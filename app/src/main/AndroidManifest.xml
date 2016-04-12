@@ -33,6 +33,9 @@
         <activity
             android:name=".ui.NewsActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.ShowImageActivity"
+            android:theme="@style/MyTheme_Night"
+            ></activity>
     </application>
 
 </manifest>

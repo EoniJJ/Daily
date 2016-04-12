@@ -3,15 +3,20 @@ package com.zzj.daily.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zzj.daily.R;
 import com.zzj.daily.bean.NewsEntity;
@@ -63,6 +68,8 @@ public class NewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //从intent中取出key为Id的数据
         String id = String.valueOf(intent.getIntExtra("id", -1));
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.addJavascriptInterface(new JavascriptInterface(this), "imagelistner");
         //若当前硬盘缓存存在该新闻，则从缓存中取出，否则则从网络请求
         if (aCache.getAsObject(ZhiHuDailyApi.news + id) != null) {
             newsEntity = (NewsEntity) aCache.getAsObject(ZhiHuDailyApi.news + id);
@@ -83,13 +90,11 @@ public class NewsActivity extends AppCompatActivity {
             } else {
                 html = "<html><head>" + css + "</head><body>" + newsEntity.getBody() + "</body></html>";
             }
-
             webView.loadDataWithBaseURL("x-data://base", html, "text/html", "UTF-8", null);
         } else {
             //启动一个异步任务从网络获取数据
             new NewsTask(imageView, textView_title, textView_imageSource, webView, isNightMode).execute(new String[]{ZhiHuDailyApi.news + id});
         }
-
     }
 
     @Override
@@ -139,5 +144,40 @@ public class NewsActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(false);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+    }
+
+    // js通信接口
+    public class JavascriptInterface {
+
+        private Context context;
+
+        public JavascriptInterface(Context context) {
+            this.context = context;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void openImage(String img) {
+            Intent intent = new Intent();
+            intent.putExtra("url",img);
+            intent.setClass(NewsActivity.this,ShowImageActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            view.loadUrl("javascript:(function(){" +
+                    "var objs = document.getElementsByTagName(\"img\"); " +
+                    "for(var i=0;i<objs.length;i++)  " +
+                    "{"
+                    + "    objs[i].onclick=function()  " +
+                    "    {  "
+                    + "        window.imagelistner.openImage(this.src);  " +
+                    "    }  " +
+                    "}" +
+                    "})()");
+        }
     }
 }

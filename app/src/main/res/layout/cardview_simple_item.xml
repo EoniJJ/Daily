@@ -9,6 +9,7 @@
     app:cardCornerRadius="@dimen/card_cardCornerRadius"
     android:layout_marginLeft="@dimen/cardView_margin_left_right"
     android:layout_marginRight="@dimen/cardView_margin_left_right"
+    android:foreground="?@android:attr/selectableItemBackground"
     app:cardBackgroundColor="?attr/card_backgroundColor">
     <LinearLayout
         android:layout_width="match_parent"
