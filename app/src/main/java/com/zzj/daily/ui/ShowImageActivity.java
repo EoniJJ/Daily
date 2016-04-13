@@ -32,7 +32,7 @@ public class ShowImageActivity extends AppCompatActivity {
         } else {
             if (aCache.getAsBitmap(url) != null) {
                 imageView.setImageBitmap(aCache.getAsBitmap(url));
-            }else{
+            } else {
                 new DownloadImageTask(imageView).execute(new String[]{url});
             }
             mAttacher.update();

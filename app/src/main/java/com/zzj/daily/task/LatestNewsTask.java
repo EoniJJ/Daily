@@ -5,8 +5,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.zzj.daily.adapter.RecyclerViewAdapter;
 import com.zzj.daily.bean.LatestNewsEntity;
 import com.zzj.daily.support.Http;
@@ -73,7 +75,7 @@ public class LatestNewsTask extends AsyncTask<String, Void, LatestNewsEntity> {
 
     @Override
     protected LatestNewsEntity doInBackground(String... params) {
-        LatestNewsEntity latestNewsEntity = new LatestNewsEntity();
+        LatestNewsEntity latestNewsEntity = null;
         //如果没有网络连接，则返回null
         if (!Tools.isNetConnected()) {
             return null;
@@ -85,7 +87,11 @@ public class LatestNewsTask extends AsyncTask<String, Void, LatestNewsEntity> {
                 if (json_LatestNewsEntity == null) {
                     return null;
                 }
-                JSONObject jsonObject_LatestNewsEntity = JSONObject.parseObject(json_LatestNewsEntity);
+                latestNewsEntity = JSON.parseObject(json_LatestNewsEntity, LatestNewsEntity.class);
+                for (int j = 0; j < latestNewsEntity.getStories().size(); j++) {
+                    latestNewsEntity.getStories().get(j).setDate(latestNewsEntity.getDate());
+                }
+                /*JSONObject jsonObject_LatestNewsEntity = JSONObject.parseObject(json_LatestNewsEntity);
                 latestNewsEntity.setDate(jsonObject_LatestNewsEntity.getString("date"));
                 JSONArray jsonArray_stories = jsonObject_LatestNewsEntity.getJSONArray("stories");
                 List<LatestNewsEntity.StoriesEntity> stories = new ArrayList<>();
@@ -121,7 +127,7 @@ public class LatestNewsTask extends AsyncTask<String, Void, LatestNewsEntity> {
                         topStoriesEntities.add(topStoriesEntity);
                     }
                     latestNewsEntity.setTop_stories(topStoriesEntities);
-                }
+                }*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
