@@ -2,7 +2,8 @@
 简易版,去除推送,更加纯净。
 ![](https://github.com/EoniJJ/Daily/blob/master/app_view.png)
 #声明
-该项目为练习项目，并没有上线，所有API均由非正常手段获取，项目的分享若有侵犯知乎（Zhihu.Inc）的权益，本人将及时删除整个项目。<br/>
+该项目为练习项目，并没有上线。<br/>
+项目中所有API均由非正常手段获取，项目的分享若有侵犯知乎（Zhihu.Inc）的权益，本人将及时删除整个项目。<br/>
 感谢您的谅解。
 #API分析
 由Xiao Liang提供
