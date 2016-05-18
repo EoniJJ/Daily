@@ -1,20 +1,27 @@
 package com.zzj.daily.ui;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +47,12 @@ public class NewsActivity extends AppCompatActivity {
     private WebView webView;
     private SharedPreferences sharedPreferences;
     private static NewsEntity newsEntity;
-
+    private MyScrollView myScrollView;
+    private int mTouchSlop;
+    private float mFirstY, mCurrentY;
+    private boolean mToolbarShow = true;
+    private Animator mAnimator;
+    private FrameLayout frameLayout;
     //是否为夜间模式 是->true 否->false
     private static boolean isNightMode;
 
@@ -66,6 +78,7 @@ public class NewsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //设置返回按钮的图片
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_backspace_black_18dp);
+        mTouchSlop = ViewConfiguration.get(this).getScaledTouchSlop();
         Intent intent = getIntent();
         //从intent中取出key为Id的数据
         String id = String.valueOf(intent.getIntExtra("id", -1));
@@ -96,7 +109,59 @@ public class NewsActivity extends AppCompatActivity {
             //启动一个异步任务从网络获取数据
             new NewsTask(imageView, textView_title, textView_imageSource, webView, isNightMode).execute(new String[]{ZhiHuDailyApi.news + id});
         }
+
+        myScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mFirstY = event.getY();
+                        Log.d("NewsActivity", "  mFirstY = " + mFirstY);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mCurrentY = event.getY();
+                        Log.d("NewsActivity", "mCurrentY = " + mCurrentY);
+                        if (mCurrentY - mFirstY > mTouchSlop) {
+                            if (!mToolbarShow) {
+                                toolbarAnim(0);
+                                mToolbarShow = !mToolbarShow;
+                            }
+                        } else if (mFirstY - mCurrentY > mTouchSlop) {
+                            if (mToolbarShow) {
+                                toolbarAnim(1);
+                                mToolbarShow = !mToolbarShow;
+                            }
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
+            }
+        });
     }
+
+    /**
+     * Toolbar隐藏显示动画
+     *
+     * @param flag 0为显示，1为隐藏
+     */
+    private void toolbarAnim(int flag) {
+        if (mAnimator != null && mAnimator.isRunning()) {
+            mAnimator.cancel();
+        }
+        if (flag == 0) {
+            mAnimator = ObjectAnimator.ofFloat(toolbar, "translationY", toolbar.getTranslationY(), 0);
+        }
+        if (flag == 1) {
+            mAnimator = ObjectAnimator.ofFloat(toolbar, "translationY", toolbar.getTranslationY(), -toolbar.getHeight());
+        }
+        mAnimator.start();
+
+    }
+
+    ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,6 +206,8 @@ public class NewsActivity extends AppCompatActivity {
         textView_title = (TextView) findViewById(R.id.new_title);
         textView_imageSource = (TextView) findViewById(R.id.image_source);
         webView = (WebView) findViewById(R.id.WebView);
+        myScrollView = (MyScrollView) findViewById(R.id.myScrollView);
+        frameLayout = (FrameLayout) findViewById(R.id.frameLayoutContent);
         //允许执行Js脚本
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(false);
@@ -159,8 +226,8 @@ public class NewsActivity extends AppCompatActivity {
         @android.webkit.JavascriptInterface
         public void openImage(String img) {
             Intent intent = new Intent();
-            intent.putExtra("url",img);
-            intent.setClass(NewsActivity.this,ShowImageActivity.class);
+            intent.putExtra("url", img);
+            intent.setClass(NewsActivity.this, ShowImageActivity.class);
             startActivity(intent);
         }
     }

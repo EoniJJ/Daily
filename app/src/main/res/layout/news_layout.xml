@@ -1,41 +1,37 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.NewsActivity">
 
-    <android.support.design.widget.AppBarLayout
+
+    <com.zzj.daily.ui.MyScrollView
+        android:id="@+id/myScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:scrollbars="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/news_toolbar"
+        <FrameLayout
+            android:id="@+id/frameLayoutContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"/>
-    </android.support.design.widget.AppBarLayout>
+            android:layout_height="match_parent"
+            android:paddingTop="80dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <WebView
-            android:id="@+id/WebView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical">
+            <WebView
+                android:id="@+id/WebView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"></WebView>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_height">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/new_image"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/image_height"
                     android:scaleType="fitXY" />
 
                 <TextView
@@ -59,6 +55,14 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/image_source_textSize" />
             </FrameLayout>
-        </WebView>
-    </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+        </FrameLayout>
+
+    </com.zzj.daily.ui.MyScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/news_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true" />
+</FrameLayout>
