@@ -116,11 +116,9 @@ public class NewsActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         mFirstY = event.getY();
-                        Log.d("NewsActivity", "  mFirstY = " + mFirstY);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         mCurrentY = event.getY();
-                        Log.d("NewsActivity", "mCurrentY = " + mCurrentY);
                         if (mCurrentY - mFirstY > mTouchSlop) {
                             if (!mToolbarShow) {
                                 toolbarAnim(0);
